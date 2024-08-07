@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+declare mode
+declare -i numDices
+declare -i target
+declare -i runs
+declare -i currTotal
+
+while getopts ia option; do
+	case $option in
+		i) mode=i;;
+    a) mode=a;;
+		?) echo "Unknown option";;
+	esac
+done
+
+# Parse Arguments
+if [[ -z mode || mode -eq "a" ]]; then
+  echo "Arguments Mode"
+  if [[ -z mode ]]; then
+    if [[ $# -lt 2 ]]; then 
+      echo "Not enough arguments"
+    else
+      numDices=$1
+      target=$2
+    fi
+  else
+    if [[ $# -lt 3 ]]; then 
+      echo "Not enough arguments"
+    else
+      numDices=$2
+      target=$3
+    fi
+  fi
+  echo -e "Number of Dices\t$numDices"
+  echo -e "Target\t$target"
+else
+  echo "Interactive Mode"
+  read -p "Number of Dices: " numDices
+  read -p "Target: " target
+fi
+
+# Check validity
+if [[ numDices -lt 1 || target -lt 1 || target -lt numDices || target -gt $((numDices * 6)) ]]; then
+  echo "Invalid Arguments"
+else
+  while [[ currTotal -lt target ]]; do
+    currTotal=0
+    for ((i=0; i<numDices; i++));do
+      ((currTotal += 1 + RANDOM % 6 ))
+    done
+    ((runs += 1))
+    echo -e "Run ${runs}\t${currTotal}"
+  done
+  echo "Runs Needed to reach ${target}: ${runs}"
+fi

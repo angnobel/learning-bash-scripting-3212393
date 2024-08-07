@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+declare -i numDices=3
+declare -i target=$((4 * numDices))
+declare -i runs=0
+declare -i currTotal=0
+
+echo -e "Dices: ${numDices}\tTarget Needed: ${target}"
+while [[ currTotal -lt target ]]; do
+  currTotal=0
+  for ((i=0; i<numDices; i++));do
+    ((currTotal += 1 + RANDOM % 6 ))
+  done
+  ((runs += 1))
+  echo -e "Run ${runs}\t${currTotal}"
+done
+
+echo "Runs Needed to reach ${target}: ${runs}"

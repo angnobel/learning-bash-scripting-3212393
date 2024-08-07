@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+greentext="\033[32m"
+bold="\033[1m"
+normal="\033[0m"
+
+printf "${bold}System Status\n${normal}"
+printf "%(%Y-%m-%d)T\n"
+printf "User:\t${greentext}%s\n${normal}" $USER
+printf "Kernel Release:\t%s\n" "$(uname -r)"
+printf "Bash Version:\t%s\n" "$BASH_VERSION"
+
+echo "-----------------------"
+printf "Storage Ultilisation:\n"
+echo "$(df -h)"
+echo "-----------------------"
+printf "Memory Usage:\n"
+echo "$(free -h)"
+echo "-----------------------"
